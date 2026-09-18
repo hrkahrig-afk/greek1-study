@@ -323,6 +323,7 @@ td.drop-target .placed-chip { font-family: var(--greek-font); font-size: 1.05rem
 }
 .chip:active { cursor: grabbing; }
 .chip.dragging { opacity: 0.4; }
+.chip.selected { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 20%, var(--card)); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 40%, transparent); }
 .chip.wrong-shake { animation: shake 0.3s; border-color: var(--bad); }
 @keyframes shake {
   25% { transform: translateX(-4px); }

@@ -153,7 +153,7 @@ const Drill = (() => {
     const attempted = new Set(); // cellIds already graded on first attempt
 
     const chipHtml = (c) =>
-      `<div class="chip ${c.greek ? "greek" : ""}" draggable="true" id="${c.chipId}" data-text="${escAttr(c.text)}">${esc(c.text)}</div>`;
+      `<div class="chip ${c.greek ? "greek" : ""}" id="${c.chipId}" data-text="${escAttr(c.text)}">${esc(c.text)}</div>`;
 
     const bank = (label, id, list) => list.length ? `
       <div style="flex:1; min-width:0;">
@@ -185,52 +185,42 @@ const Drill = (() => {
       target.querySelector("#dr-score").textContent = `${placedCount} / ${chips.length} placed`;
     }
 
-    target.querySelectorAll(".chip").forEach((chip) => {
-      chip.addEventListener("dragstart", (e) => {
-        e.dataTransfer.setData("text/plain", chip.id);
-        chip.classList.add("dragging");
-      });
-      chip.addEventListener("dragend", () => chip.classList.remove("dragging"));
-    });
+    function isMatch(chipEl, cell) {
+      const kind = cell.dataset.cellId.split(":")[2];
+      const [rIdx, gIdx] = cell.dataset.cellId.split(":");
+      const group = parsed.rows[rIdx].groups[gIdx];
+      const expected = kind === "article" ? group.article : kind === "gloss" ? group.gloss : group.form;
+      const chipText = chipEl.dataset.text;
+      return kind === "gloss"
+        ? chipText.trim().toLowerCase() === (expected || "").trim().toLowerCase()
+        : normalizeGreek(chipText) === normalizeGreek(expected);
+    }
 
-    target.querySelectorAll("td.drop-target").forEach((cell) => {
-      cell.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        if (!cell.classList.contains("filled")) cell.classList.add("hover");
-      });
-      cell.addEventListener("dragleave", () => cell.classList.remove("hover"));
-      cell.addEventListener("drop", (e) => {
-        e.preventDefault();
-        cell.classList.remove("hover");
-        if (cell.classList.contains("filled")) return;
-        const chipId = e.dataTransfer.getData("text/plain");
-        const chipEl = document.getElementById(chipId);
-        if (!chipEl) return;
+    function grade(cellId, ok) {
+      if (attempted.has(cellId)) return;
+      attempted.add(cellId);
+      SRS.grade(`para:${pIdx}:${cellId}`, ok ? 4 : 1);
+    }
+
+    MatchGame.wire({
+      chips: [...target.querySelectorAll(".chip")],
+      cells: [...target.querySelectorAll("td.drop-target")],
+      isMatch,
+      onCorrect(chipEl, cell) {
+        const kind = cell.dataset.cellId.split(":")[2];
         const chipText = chipEl.dataset.text;
-        const cellId = cell.dataset.cellId;
-        const [rIdx, gIdx, kind] = cellId.split(":");
-        const group = parsed.rows[rIdx].groups[gIdx];
-        const expected = kind === "article" ? group.article : kind === "gloss" ? group.gloss : group.form;
-        const ok = kind === "gloss"
-          ? chipText.trim().toLowerCase() === (expected || "").trim().toLowerCase()
-          : normalizeGreek(chipText) === normalizeGreek(expected);
-
-        if (!attempted.has(cellId)) {
-          attempted.add(cellId);
-          SRS.grade(`para:${pIdx}:${cellId}`, ok ? 4 : 1);
-        }
-
-        if (ok) {
-          cell.classList.add("filled");
-          cell.innerHTML = `<span class="placed-chip ${kind === "gloss" ? "" : "greek"}">${esc(chipText)}</span>`;
-          chipEl.remove();
-          placedCount += 1;
-          updateScore();
-        } else {
-          chipEl.classList.add("wrong-shake");
-          setTimeout(() => chipEl.classList.remove("wrong-shake"), 300);
-        }
-      });
+        grade(cell.dataset.cellId, true);
+        cell.classList.add("filled");
+        cell.innerHTML = `<span class="placed-chip ${kind === "gloss" ? "" : "greek"}">${esc(chipText)}</span>`;
+        chipEl.remove();
+        placedCount += 1;
+        updateScore();
+      },
+      onWrong(chipEl, cell) {
+        grade(cell.dataset.cellId, false);
+        chipEl.classList.add("wrong-shake");
+        setTimeout(() => chipEl.classList.remove("wrong-shake"), 300);
+      },
     });
 
     target.querySelector("#dr-reset").addEventListener("click", () => renderMatchTable(container, paradigm, pIdx));

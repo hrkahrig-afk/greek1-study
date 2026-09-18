@@ -104,7 +104,7 @@ const Quiz = (() => {
         <table class="paradigm"><tbody>${rowsHtml}</tbody></table>
         <div class="flash-meta" style="text-align:left; margin:0.75rem 0 0.25rem;">Meanings</div>
         <div class="chip-bank" id="qz-match-bank">
-          ${glosses.map((g) => `<div class="chip" draggable="true" id="${g.chipId}" data-word-id="${escAttr(g.wordId)}">${esc(g.text)}</div>`).join("")}
+          ${glosses.map((g) => `<div class="chip" id="${g.chipId}" data-word-id="${escAttr(g.wordId)}">${esc(g.text)}</div>`).join("")}
         </div>
         <div class="row" style="margin-top:1.25rem;">
           <button class="btn secondary" id="qz-match-reset">New Round</button>
@@ -112,46 +112,31 @@ const Quiz = (() => {
         </div>
       </div>`;
 
-    target.querySelectorAll(".chip").forEach((chip) => {
-      chip.addEventListener("dragstart", (e) => {
-        e.dataTransfer.setData("text/plain", chip.id);
-        chip.classList.add("dragging");
-      });
-      chip.addEventListener("dragend", () => chip.classList.remove("dragging"));
-    });
-
-    target.querySelectorAll("td.drop-target").forEach((cell) => {
-      cell.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        if (!cell.classList.contains("filled")) cell.classList.add("hover");
-      });
-      cell.addEventListener("dragleave", () => cell.classList.remove("hover"));
-      cell.addEventListener("drop", (e) => {
-        e.preventDefault();
-        cell.classList.remove("hover");
-        if (cell.classList.contains("filled")) return;
-        const chipId = e.dataTransfer.getData("text/plain");
-        const chipEl = document.getElementById(chipId);
-        if (!chipEl) return;
+    MatchGame.wire({
+      chips: [...target.querySelectorAll(".chip")],
+      cells: [...target.querySelectorAll("td.drop-target")],
+      isMatch: (chipEl, cell) => chipEl.dataset.wordId === cell.dataset.wordId,
+      onCorrect(chipEl, cell) {
         const wordId = cell.dataset.wordId;
-        const ok = chipEl.dataset.wordId === wordId;
-
         if (!attempted.has(wordId)) {
           attempted.add(wordId);
-          SRS.grade(wordId, ok ? 4 : 1);
+          SRS.grade(wordId, 4);
         }
-
-        if (ok) {
-          cell.classList.add("filled");
-          cell.innerHTML = `<span class="placed-chip">${esc(chipEl.textContent)}</span>`;
-          chipEl.remove();
-          placedCount += 1;
-          target.querySelector("#qz-match-score").textContent = `${placedCount} / ${words.length} matched`;
-        } else {
-          chipEl.classList.add("wrong-shake");
-          setTimeout(() => chipEl.classList.remove("wrong-shake"), 300);
+        cell.classList.add("filled");
+        cell.innerHTML = `<span class="placed-chip">${esc(chipEl.textContent)}</span>`;
+        chipEl.remove();
+        placedCount += 1;
+        target.querySelector("#qz-match-score").textContent = `${placedCount} / ${words.length} matched`;
+      },
+      onWrong(chipEl, cell) {
+        const wordId = cell.dataset.wordId;
+        if (!attempted.has(wordId)) {
+          attempted.add(wordId);
+          SRS.grade(wordId, 1);
         }
-      });
+        chipEl.classList.add("wrong-shake");
+        setTimeout(() => chipEl.classList.remove("wrong-shake"), 300);
+      },
     });
 
     target.querySelector("#qz-match-reset").addEventListener("click", () => renderVocabMatch(container, vocabPool));
