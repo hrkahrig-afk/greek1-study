@@ -38,7 +38,7 @@ const App = (() => {
     });
 
     try {
-      await Content.load();
+      await Promise.all([Content.load(), SRS.init()]);
     } catch (e) {
       document.getElementById("app").innerHTML = `<div class="card"><p>Failed to load content.json / reference.json. Make sure you're serving this folder (not opening index.html via file://), or run a local server.</p><p style="color:var(--bad)">${e}</p></div>`;
       return;

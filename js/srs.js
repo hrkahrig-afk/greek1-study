@@ -1,6 +1,14 @@
-// SM-2 spaced repetition scheduling + localStorage-backed progress store.
+// SM-2 spaced repetition scheduling + persistent progress store.
+// Uses the Claude Artifact "db" capability (survives reloads/devices) when
+// running as a published Artifact; falls back to localStorage (this
+// browser/device only) when db isn't available — e.g. the GitHub Pages
+// copy, or local testing.
 const SRS = (() => {
   const STORAGE_KEY = "greek1_study_progress_v1";
+  const DB_DOC_PATH = "progress/state";
+
+  let dbRef = null; // DocumentReference once db capability resolves, else null
+  let writeChain = Promise.resolve(); // serialize db writes, one at a time
 
   function todayISO() {
     return new Date().toISOString().slice(0, 10);
@@ -19,9 +27,9 @@ const SRS = (() => {
     };
   }
 
-  let state = load();
+  let state = defaultState();
 
-  function load() {
+  function loadFromLocalStorage() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return defaultState();
@@ -33,7 +41,43 @@ const SRS = (() => {
     }
   }
 
+  // Must be awaited before the app renders its first view, so state is
+  // in place before anything reads it.
+  async function init() {
+    try {
+      if (window.claude && window.claude.use) {
+        const db = await window.claude.use("db");
+        if (db) dbRef = db.doc(DB_DOC_PATH);
+      }
+    } catch (e) {
+      dbRef = null;
+    }
+
+    if (dbRef) {
+      try {
+        const snap = await dbRef.get();
+        if (snap.exists) {
+          const data = snap.data();
+          state = { ...defaultState(), ...data, items: data.items || {} };
+          return;
+        }
+      } catch (e) {
+        console.error("Failed to load progress from db, falling back.", e);
+        dbRef = null;
+      }
+    }
+    state = loadFromLocalStorage();
+  }
+
   function persist() {
+    if (dbRef) {
+      const ref = dbRef;
+      const snapshot = state;
+      writeChain = writeChain
+        .then(() => ref.set(snapshot))
+        .catch((e) => console.error("Failed to save progress.", e));
+      return;
+    }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }
 
@@ -164,6 +208,7 @@ const SRS = (() => {
   }
 
   return {
+    init,
     grade,
     isDue,
     getItemState,
