@@ -120,7 +120,8 @@ const Drill = (() => {
     const target = container.querySelector("#dr-session");
     const parsed = Content.parseParadigmTable(paradigm);
 
-    // Build one chip per blank (article and form are separate chips).
+    // Build one chip per blank (article / Greek form / English gloss are
+    // all separate chips, each with their own bank).
     const chips = [];
     let rowsHtml = "";
     parsed.rows.forEach((row, rIdx) => {
@@ -128,42 +129,49 @@ const Drill = (() => {
       row.groups.forEach((g, gIdx) => {
         if (g.article !== undefined) {
           const cellId = `${rIdx}:${gIdx}:article`;
-          chips.push({ chipId: `chip-${chips.length}`, cellId, text: g.article, kind: "article" });
+          chips.push({ chipId: `chip-${chips.length}`, cellId, text: g.article, kind: "article", greek: true });
           cells += `<td class="drop-target" data-cell-id="${cellId}"></td>`;
         }
-        const cellId = `${rIdx}:${gIdx}:form`;
-        chips.push({ chipId: `chip-${chips.length}`, cellId, text: g.form, kind: "form" });
-        cells += `<td class="drop-target" data-cell-id="${cellId}"></td>`;
+        const formCellId = `${rIdx}:${gIdx}:form`;
+        chips.push({ chipId: `chip-${chips.length}`, cellId: formCellId, text: g.form, kind: "form", greek: true });
+        cells += `<td class="drop-target" data-cell-id="${formCellId}"></td>`;
+        if (g.gloss) {
+          const glossCellId = `${rIdx}:${gIdx}:gloss`;
+          chips.push({ chipId: `chip-${chips.length}`, cellId: glossCellId, text: g.gloss, kind: "gloss", greek: false });
+          cells += `<td class="drop-target" data-cell-id="${glossCellId}"></td>`;
+        }
       });
       rowsHtml += `<tr>${cells}</tr>`;
     });
 
     const articleChips = chips.filter((c) => c.kind === "article");
     const formChips = chips.filter((c) => c.kind === "form");
+    const glossChips = chips.filter((c) => c.kind === "gloss");
     SRS.shuffle(articleChips);
     SRS.shuffle(formChips);
+    SRS.shuffle(glossChips);
     const attempted = new Set(); // cellIds already graded on first attempt
 
     const chipHtml = (c) =>
-      `<div class="chip greek" draggable="true" id="${c.chipId}" data-text="${escAttr(c.text)}">${esc(c.text)}</div>`;
+      `<div class="chip ${c.greek ? "greek" : ""}" draggable="true" id="${c.chipId}" data-text="${escAttr(c.text)}">${esc(c.text)}</div>`;
+
+    const bank = (label, id, list) => list.length ? `
+      <div style="flex:1; min-width:0;">
+        <div class="flash-meta" style="text-align:left; margin-bottom:0.25rem;">${label}</div>
+        <div class="chip-bank" id="${id}">${list.map(chipHtml).join("")}</div>
+      </div>` : "";
 
     target.innerHTML = `
       <div class="card">
         <h2>${esc(paradigm.title)}</h2>
-        <p style="color:var(--text-dim); font-size:0.85rem;">Drag each piece from the bank into its matching blank. Wrong drops snap back.</p>
+        <p style="color:var(--text-dim); font-size:0.85rem;">Drag each piece from its bank into the matching blank. Wrong drops snap back.</p>
         <table class="paradigm">
           <tbody>${rowsHtml}</tbody>
         </table>
         <div class="row" style="align-items:stretch; flex-wrap:nowrap;">
-          ${articleChips.length ? `
-          <div style="flex:1; min-width:0;">
-            <div class="flash-meta" style="text-align:left; margin-bottom:0.25rem;">Articles</div>
-            <div class="chip-bank" id="dr-bank-article">${articleChips.map(chipHtml).join("")}</div>
-          </div>` : ""}
-          <div style="flex:2; min-width:0;">
-            <div class="flash-meta" style="text-align:left; margin-bottom:0.25rem;">Words</div>
-            <div class="chip-bank" id="dr-bank-form">${formChips.map(chipHtml).join("")}</div>
-          </div>
+          ${bank("Articles", "dr-bank-article", articleChips)}
+          ${bank("Greek Words", "dr-bank-form", formChips)}
+          ${bank("English Meanings", "dr-bank-gloss", glossChips)}
         </div>
         <div class="row" style="margin-top:1.25rem;">
           <button class="btn secondary" id="dr-reset">Reset</button>
@@ -202,8 +210,10 @@ const Drill = (() => {
         const cellId = cell.dataset.cellId;
         const [rIdx, gIdx, kind] = cellId.split(":");
         const group = parsed.rows[rIdx].groups[gIdx];
-        const expected = kind === "article" ? group.article : group.form;
-        const ok = normalizeGreek(chipText) === normalizeGreek(expected);
+        const expected = kind === "article" ? group.article : kind === "gloss" ? group.gloss : group.form;
+        const ok = kind === "gloss"
+          ? chipText.trim().toLowerCase() === (expected || "").trim().toLowerCase()
+          : normalizeGreek(chipText) === normalizeGreek(expected);
 
         if (!attempted.has(cellId)) {
           attempted.add(cellId);
@@ -212,7 +222,7 @@ const Drill = (() => {
 
         if (ok) {
           cell.classList.add("filled");
-          cell.innerHTML = `<span class="placed-chip">${esc(chipText)}</span>`;
+          cell.innerHTML = `<span class="placed-chip ${kind === "gloss" ? "" : "greek"}">${esc(chipText)}</span>`;
           chipEl.remove();
           placedCount += 1;
           updateScore();
