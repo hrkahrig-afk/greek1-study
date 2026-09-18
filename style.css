@@ -173,10 +173,18 @@ input[type="text"], input[type="number"] {
 input[type="range"] { width: 100%; }
 
 table.paradigm {
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border-collapse: collapse;
   width: 100%;
+  max-width: 100%;
   margin: 0.75rem 0;
   font-size: 0.95rem;
+}
+table.paradigm tbody, table.paradigm thead {
+  display: table;
+  width: 100%;
 }
 table.paradigm th, table.paradigm td {
   border: 1px solid var(--border);
