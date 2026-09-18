@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Greek 1 Study</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">Greek 1 Study</div>
+  <nav class="tabs" id="tabs">
+    <button data-view="dashboard" class="tab active">Dashboard</button>
+    <button data-view="flashcards" class="tab">Flashcards</button>
+    <button data-view="quiz" class="tab">Quiz</button>
+    <button data-view="drill" class="tab">Paradigm Drill</button>
+    <button data-view="reference" class="tab">Reference</button>
+    <button data-view="settings" class="tab">Settings</button>
+  </nav>
+</header>
+
+<main id="app">
+  <p class="loading">Loading content&hellip;</p>
+</main>
+
+<template id="tpl-greek-keyboard">
+  <div class="greek-kbd"></div>
+</template>
+
+<script src="js/content.js?v=8"></script>
+<script src="js/srs.js?v=8"></script>
+<script src="js/keyboard.js?v=8"></script>
+<script src="js/dashboard.js?v=8"></script>
+<script src="js/flashcards.js?v=8"></script>
+<script src="js/quiz.js?v=8"></script>
+<script src="js/drill.js?v=8"></script>
+<script src="js/reference.js?v=8"></script>
+<script src="js/settings.js?v=8"></script>
+<script src="js/app.js?v=8"></script>
+</body>
+</html>
