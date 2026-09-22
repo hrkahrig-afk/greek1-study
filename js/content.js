@@ -5,8 +5,8 @@ const Content = (() => {
 
   async function load() {
     const [content, reference] = await Promise.all([
-      fetch("data/content.json").then((r) => r.json()),
-      fetch("data/reference.json").then((r) => r.json()),
+      fetch("data/content.json", { cache: "no-cache" }).then((r) => r.json()),
+      fetch("data/reference.json", { cache: "no-cache" }).then((r) => r.json()),
     ]);
     data = {
       chapters: content.chapters,
@@ -14,6 +14,7 @@ const Content = (() => {
       vocabulary: content.vocabulary,
       paradigms: content.paradigms,
       parsing: content.parsing || [],
+      concepts: content.concepts || [],
       quizzes: reference.quizzes,
       practiceExercises: reference.practice_exercises,
     };
@@ -180,6 +181,20 @@ const Content = (() => {
         values: Object.fromEntries(fields.map((f) => [f, p[f]])),
         answer: fields.map((f) => p[f]).join(" "),
         detail: [p.lexical, p.translation].filter(Boolean).join(" — "),
+      });
+    });
+
+    data.concepts.forEach((c, idx) => {
+      bank.push({
+        id: `concept:${idx}`,
+        type: "concept",
+        category: c.category,
+        group: "Grammar Concepts",
+        chapter: c.chapter,
+        prompt: c.term,
+        promptGreek: false,
+        answer: c.definition,
+        detail: c.category,
       });
     });
 

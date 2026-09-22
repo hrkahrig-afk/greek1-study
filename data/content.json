@@ -11291,5 +11291,85 @@
       "person": "3rd",
       "number": "Singular"
     }
+  ],
+  "concepts": [
+    {
+      "category": "Voice",
+      "term": "Active",
+      "chapter": 4,
+      "definition": "The subject performs the action."
+    },
+    {
+      "category": "Voice",
+      "term": "Middle",
+      "chapter": 4,
+      "definition": "The subject both performs and is affected by the action."
+    },
+    {
+      "category": "Voice",
+      "term": "Passive",
+      "chapter": 4,
+      "definition": "The subject does not perform the action but receives it."
+    },
+    {
+      "category": "Mood",
+      "term": "Indicative",
+      "chapter": 4,
+      "definition": "Represents something as certain or asserted — presented as factual."
+    },
+    {
+      "category": "Mood",
+      "term": "Subjunctive",
+      "chapter": 4,
+      "definition": "Represents something as probable, contingent, or indefinite."
+    },
+    {
+      "category": "Mood",
+      "term": "Optative",
+      "chapter": 4,
+      "definition": "Represents something as possible or hoped for."
+    },
+    {
+      "category": "Mood",
+      "term": "Imperative",
+      "chapter": 4,
+      "definition": "Represents something as requested or commanded."
+    },
+    {
+      "category": "Tense",
+      "term": "Present",
+      "chapter": 4,
+      "definition": "Imperfective aspect — the action is depicted as ongoing or in process, with no focus on its beginning or end."
+    },
+    {
+      "category": "Tense",
+      "term": "Imperfect",
+      "chapter": 4,
+      "definition": "Imperfective aspect in past time — a past action depicted as ongoing or in process."
+    },
+    {
+      "category": "Tense",
+      "term": "Future",
+      "chapter": 4,
+      "definition": "Perfective aspect — a future action depicted as a complete whole."
+    },
+    {
+      "category": "Tense",
+      "term": "Aorist",
+      "chapter": 4,
+      "definition": "Perfective aspect — the action is depicted as complete or as a whole, without indicating how it took place."
+    },
+    {
+      "category": "Tense",
+      "term": "Perfect",
+      "chapter": 4,
+      "definition": "Stative aspect — a state of affairs or ongoing relevance resulting from a past action."
+    },
+    {
+      "category": "Tense",
+      "term": "Pluperfect",
+      "chapter": 4,
+      "definition": "Stative aspect in past time — a past state resulting from an earlier action."
+    }
   ]
 }

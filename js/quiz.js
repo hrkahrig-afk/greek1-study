@@ -34,9 +34,15 @@ const Quiz = (() => {
         <div class="row" style="margin-top:0.5rem;">
           <label><input type="radio" name="qz-mode" value="mcq" checked /> Multiple Choice</label>
           <label><input type="radio" name="qz-mode" value="typed" /> Typed / Fill-in-the-blank</label>
-          <label><input type="radio" name="qz-mode" value="match" /> Drag &amp; Match (Vocabulary)</label>
+          <label><input type="radio" name="qz-mode" value="match" /> Drag &amp; Match</label>
         </div>
-        <p id="qz-match-note" class="flash-meta" style="display:none;">Match mode ignores Focus/Questions — it uses every vocabulary word in the chapter(s) picked above.</p>
+        <div class="row" id="qz-match-controls" style="display:none; margin-top:0.5rem;">
+          <label>Match: <select id="qz-match-pool">
+            <option value="vocab">Vocabulary</option>
+            <option value="concept">Grammar Concepts (voice/mood/tense)</option>
+          </select></label>
+        </div>
+        <p id="qz-match-note" class="flash-meta" style="display:none;">Match mode ignores Focus/Questions — it uses every item of the chosen type in the chapter(s) picked above.</p>
         <div class="row" style="margin-top:0.5rem;">
           <button class="btn" id="qz-start">Start Quiz</button>
         </div>
@@ -51,6 +57,7 @@ const Quiz = (() => {
         container.querySelector("#qz-group").closest("label").style.display = isMatch ? "none" : "";
         container.querySelector("#qz-size-label").style.display = isMatch ? "none" : "";
         container.querySelector("#qz-match-note").style.display = isMatch ? "" : "none";
+        container.querySelector("#qz-match-controls").style.display = isMatch ? "" : "none";
       });
     });
 
@@ -61,9 +68,10 @@ const Quiz = (() => {
       sessionMode = container.querySelector('input[name="qz-mode"]:checked').value;
 
       if (sessionMode === "match") {
-        let vocabPool = pool.filter((i) => i.type === "vocab");
-        if (chapter) vocabPool = vocabPool.filter((i) => i.chapter === parseInt(chapter, 10));
-        renderVocabMatch(container, vocabPool);
+        const matchType = container.querySelector("#qz-match-pool").value;
+        let matchPool = pool.filter((i) => i.type === matchType);
+        if (chapter) matchPool = matchPool.filter((i) => i.chapter === parseInt(chapter, 10));
+        renderMatchPairs(container, matchPool, matchType);
         return;
       }
 
@@ -76,70 +84,76 @@ const Quiz = (() => {
     });
   }
 
-  // ---- Vocabulary drag & match --------------------------------------------
-  function renderVocabMatch(container, vocabPool) {
+  // ---- Generic drag & match: any item pool with prompt/answer/id ----------
+  const MATCH_COPY = {
+    vocab: { title: "Match the Meaning", instructions: "Drag each English meaning onto its matching Greek word.", bankLabel: "Meanings", empty: "No vocabulary in that chapter selection.", promptClass: "greek" },
+    concept: { title: "Match the Definition", instructions: "Drag each definition onto its matching term.", bankLabel: "Definitions", empty: "No grammar concepts in that chapter selection.", promptClass: "" },
+  };
+
+  function renderMatchPairs(container, itemPool, matchType) {
+    const copy = MATCH_COPY[matchType];
     const target = container.querySelector("#qz-session");
-    if (!vocabPool.length) {
-      target.innerHTML = `<div class="card"><p>No vocabulary in that chapter selection.</p></div>`;
+    if (!itemPool.length) {
+      target.innerHTML = `<div class="card"><p>${esc(copy.empty)}</p></div>`;
       return;
     }
 
-    const words = SRS.shuffle([...vocabPool]);
-    const glosses = SRS.shuffle(words.map((w, i) => ({ chipId: `gloss-${i}`, wordId: w.id, text: w.answer })));
+    const leftItems = SRS.shuffle([...itemPool]);
+    const rightChips = SRS.shuffle(leftItems.map((w, i) => ({ chipId: `chip-${i}`, itemId: w.id, text: w.answer })));
     const attempted = new Set();
     let placedCount = 0;
 
-    const rowsHtml = words
+    const rowsHtml = leftItems
       .map((w) => `
         <tr>
-          <td class="greek" style="text-align:left; padding:0.5rem;">${esc(w.prompt)}</td>
-          <td class="drop-target" data-word-id="${escAttr(w.id)}" style="min-width:200px;"></td>
+          <td class="${copy.promptClass}" style="text-align:left; padding:0.5rem;">${esc(w.prompt)}</td>
+          <td class="drop-target" data-item-id="${escAttr(w.id)}" style="min-width:200px;"></td>
         </tr>`)
       .join("");
 
     target.innerHTML = `
       <div class="card">
-        <h2>Match the Meaning</h2>
-        <p style="color:var(--text-dim); font-size:0.85rem;">Drag each English meaning onto its matching Greek word. Wrong drops snap back.</p>
+        <h2>${esc(copy.title)}</h2>
+        <p style="color:var(--text-dim); font-size:0.85rem;">${esc(copy.instructions)} Wrong drops snap back.</p>
         <table class="paradigm"><tbody>${rowsHtml}</tbody></table>
-        <div class="flash-meta" style="text-align:left; margin:0.75rem 0 0.25rem;">Meanings</div>
+        <div class="flash-meta" style="text-align:left; margin:0.75rem 0 0.25rem;">${esc(copy.bankLabel)}</div>
         <div class="chip-bank" id="qz-match-bank">
-          ${glosses.map((g) => `<div class="chip" id="${g.chipId}" data-word-id="${escAttr(g.wordId)}">${esc(g.text)}</div>`).join("")}
+          ${rightChips.map((g) => `<div class="chip" id="${g.chipId}" data-item-id="${escAttr(g.itemId)}">${esc(g.text)}</div>`).join("")}
         </div>
         <div class="row" style="margin-top:1.25rem;">
           <button class="btn secondary" id="qz-match-reset">New Round</button>
-          <span class="pill" id="qz-match-score">0 / ${words.length} matched</span>
+          <span class="pill" id="qz-match-score">0 / ${leftItems.length} matched</span>
         </div>
       </div>`;
 
     MatchGame.wire({
       chips: [...target.querySelectorAll(".chip")],
       cells: [...target.querySelectorAll("td.drop-target")],
-      isMatch: (chipEl, cell) => chipEl.dataset.wordId === cell.dataset.wordId,
+      isMatch: (chipEl, cell) => chipEl.dataset.itemId === cell.dataset.itemId,
       onCorrect(chipEl, cell) {
-        const wordId = cell.dataset.wordId;
-        if (!attempted.has(wordId)) {
-          attempted.add(wordId);
-          SRS.grade(wordId, 4);
+        const itemId = cell.dataset.itemId;
+        if (!attempted.has(itemId)) {
+          attempted.add(itemId);
+          SRS.grade(itemId, 4);
         }
         cell.classList.add("filled");
         cell.innerHTML = `<span class="placed-chip">${esc(chipEl.textContent)}</span>`;
         chipEl.remove();
         placedCount += 1;
-        target.querySelector("#qz-match-score").textContent = `${placedCount} / ${words.length} matched`;
+        target.querySelector("#qz-match-score").textContent = `${placedCount} / ${leftItems.length} matched`;
       },
       onWrong(chipEl, cell) {
-        const wordId = cell.dataset.wordId;
-        if (!attempted.has(wordId)) {
-          attempted.add(wordId);
-          SRS.grade(wordId, 1);
+        const itemId = cell.dataset.itemId;
+        if (!attempted.has(itemId)) {
+          attempted.add(itemId);
+          SRS.grade(itemId, 1);
         }
         chipEl.classList.add("wrong-shake");
         setTimeout(() => chipEl.classList.remove("wrong-shake"), 300);
       },
     });
 
-    target.querySelector("#qz-match-reset").addEventListener("click", () => renderVocabMatch(container, vocabPool));
+    target.querySelector("#qz-match-reset").addEventListener("click", () => renderMatchPairs(container, itemPool, matchType));
   }
 
   function normalizeGreek(s) {
@@ -152,9 +166,9 @@ const Quiz = (() => {
   }
 
   function isCorrect(item, answer) {
-    if (item.type === "vocab") {
-      // answer is English gloss text — accept if the given answer is a
-      // reasonably close substring match against the accepted gloss.
+    if (item.type === "vocab" || item.type === "concept") {
+      // answer is English text (gloss or definition) — accept if the given
+      // answer is a reasonably close substring match against it.
       const norm = (s) => s.trim().toLowerCase();
       const given = norm(answer);
       const accepted = norm(item.answer).split(/[,;]/).map((s) => s.trim());

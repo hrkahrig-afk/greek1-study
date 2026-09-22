@@ -353,6 +353,43 @@ def extract_parsing(zf):
     return entries
 
 
+# Conceptual grammar terms (voice/mood/tense) — not inflected forms, so they
+# don't fit the vocabulary or paradigm extraction. Definitions are quoted/
+# paraphrased directly from the book's own explanatory prose in section 4.4
+# (Voice), 4.5 (Mood), and 4.6 (Tense and Aspect), where all three are first
+# introduced together.
+GRAMMAR_CONCEPTS = [
+    {"category": "Voice", "term": "Active", "chapter": 4,
+     "definition": "The subject performs the action."},
+    {"category": "Voice", "term": "Middle", "chapter": 4,
+     "definition": "The subject both performs and is affected by the action."},
+    {"category": "Voice", "term": "Passive", "chapter": 4,
+     "definition": "The subject does not perform the action but receives it."},
+
+    {"category": "Mood", "term": "Indicative", "chapter": 4,
+     "definition": "Represents something as certain or asserted — presented as factual."},
+    {"category": "Mood", "term": "Subjunctive", "chapter": 4,
+     "definition": "Represents something as probable, contingent, or indefinite."},
+    {"category": "Mood", "term": "Optative", "chapter": 4,
+     "definition": "Represents something as possible or hoped for."},
+    {"category": "Mood", "term": "Imperative", "chapter": 4,
+     "definition": "Represents something as requested or commanded."},
+
+    {"category": "Tense", "term": "Present", "chapter": 4,
+     "definition": "Imperfective aspect — the action is depicted as ongoing or in process, with no focus on its beginning or end."},
+    {"category": "Tense", "term": "Imperfect", "chapter": 4,
+     "definition": "Imperfective aspect in past time — a past action depicted as ongoing or in process."},
+    {"category": "Tense", "term": "Future", "chapter": 4,
+     "definition": "Perfective aspect — a future action depicted as a complete whole."},
+    {"category": "Tense", "term": "Aorist", "chapter": 4,
+     "definition": "Perfective aspect — the action is depicted as complete or as a whole, without indicating how it took place."},
+    {"category": "Tense", "term": "Perfect", "chapter": 4,
+     "definition": "Stative aspect — a state of affairs or ongoing relevance resulting from a past action."},
+    {"category": "Tense", "term": "Pluperfect", "chapter": 4,
+     "definition": "Stative aspect in past time — a past state resulting from an earlier action."},
+]
+
+
 def main():
     with zipfile.ZipFile(EPUB_PATH) as zf:
         chapter_names = sorted(
@@ -372,6 +409,7 @@ def main():
         "vocabulary": vocabulary,
         "paradigms": paradigms,
         "parsing": parsing,
+        "concepts": GRAMMAR_CONCEPTS,
     }
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -384,6 +422,7 @@ def main():
     untagged = sum(1 for p in paradigms if p["chapter"] is None)
     print(f"Paradigm tables: {len(paradigms)} ({untagged} untagged)")
     print(f"Parsing entries: {len(parsing)}")
+    print(f"Grammar concepts: {len(GRAMMAR_CONCEPTS)}")
 
 
 if __name__ == "__main__":
