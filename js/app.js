@@ -6,6 +6,7 @@ const App = (() => {
     flashcards: Flashcards,
     quiz: Quiz,
     drill: Drill,
+    tests: PracticeTests,
     reference: Reference,
     settings: Settings,
   };
