@@ -352,6 +352,19 @@ td.drop-target .placed-chip { font-family: var(--greek-font); font-size: 1.05rem
   user-select: none;
 }
 .chip:active { cursor: grabbing; }
+
+/* iOS Safari decides whether a non-native element (a div/td with only a
+   JS click listener, no real <button>/<a>) is "clickable" partly from its
+   cursor style. Without cursor:pointer, the first tap just simulates
+   hover/focus and a second tap is needed to actually fire the click —
+   which is exactly the "tap twice" symptom on the match games. Scoped to
+   coarse-pointer (touchscreen) so desktop keeps the grab/pointer cursors
+   that make sense for a mouse. */
+@media (pointer: coarse) {
+  .chip, td.drop-target {
+    cursor: pointer;
+  }
+}
 .chip.dragging { opacity: 0.4; }
 .chip.selected { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 20%, var(--card)); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 40%, transparent); }
 .chip.wrong-shake { animation: shake 0.3s; border-color: var(--bad); }
