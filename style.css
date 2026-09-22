@@ -46,6 +46,14 @@
 
 * { box-sizing: border-box; }
 
+/* Without this, mobile browsers delay (sometimes effectively swallow)
+   the first tap on an element while they check whether it's the start
+   of a double-tap-to-zoom gesture — every clickable thing in the app
+   needs it, not just the drag/match pieces. */
+button, .chip, td.drop-target, .mcq-option {
+  touch-action: manipulation;
+}
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
