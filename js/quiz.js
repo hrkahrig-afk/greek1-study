@@ -40,6 +40,7 @@ const Quiz = (() => {
           <label>Match: <select id="qz-match-pool">
             <option value="vocab">Vocabulary</option>
             <option value="concept">Grammar Concepts (voice/mood/tense)</option>
+            <option value="mnemonic">Memory Devices (ch. 5-9)</option>
           </select></label>
         </div>
         <p id="qz-match-note" class="flash-meta" style="display:none;">Match mode ignores Focus/Questions — it uses every item of the chosen type in the chapter(s) picked above.</p>
@@ -86,8 +87,9 @@ const Quiz = (() => {
 
   // ---- Generic drag & match: any item pool with prompt/answer/id ----------
   const MATCH_COPY = {
-    vocab: { title: "Match the Meaning", instructions: "Drag each English meaning onto its matching Greek word.", bankLabel: "Meanings", empty: "No vocabulary in that chapter selection.", promptClass: "greek" },
-    concept: { title: "Match the Definition", instructions: "Drag each definition onto its matching term.", bankLabel: "Definitions", empty: "No grammar concepts in that chapter selection.", promptClass: "" },
+    vocab: { title: "Match the Meaning", instructions: "Drag each English meaning onto its matching Greek word.", bankLabel: "Meanings", empty: "No vocabulary in that chapter selection.", promptClass: "greek", chipClass: "" },
+    concept: { title: "Match the Definition", instructions: "Drag each definition onto its matching term.", bankLabel: "Definitions", empty: "No grammar concepts in that chapter selection.", promptClass: "", chipClass: "" },
+    mnemonic: { title: "Match the Memory Device", instructions: "Drag each Greek word onto the memory device that goes with it.", bankLabel: "Greek words", empty: "No memory devices in that chapter selection.", promptClass: "", chipClass: "greek" },
   };
 
   function renderMatchPairs(container, itemPool, matchType) {
@@ -118,7 +120,7 @@ const Quiz = (() => {
         <table class="paradigm"><tbody>${rowsHtml}</tbody></table>
         <div class="flash-meta" style="text-align:left; margin:0.75rem 0 0.25rem;">${esc(copy.bankLabel)}</div>
         <div class="chip-bank" id="qz-match-bank">
-          ${rightChips.map((g) => `<div class="chip" id="${g.chipId}" data-item-id="${escAttr(g.itemId)}">${esc(g.text)}</div>`).join("")}
+          ${rightChips.map((g) => `<div class="chip ${copy.chipClass}" id="${g.chipId}" data-item-id="${escAttr(g.itemId)}">${esc(g.text)}</div>`).join("")}
         </div>
         <div class="row" style="margin-top:1.25rem;">
           <button class="btn secondary" id="qz-match-reset">New Round</button>
@@ -137,7 +139,7 @@ const Quiz = (() => {
           SRS.grade(itemId, 4);
         }
         cell.classList.add("filled");
-        cell.innerHTML = `<span class="placed-chip">${esc(chipEl.textContent)}</span>`;
+        cell.innerHTML = `<span class="placed-chip ${copy.chipClass}">${esc(chipEl.textContent)}</span>`;
         chipEl.remove();
         placedCount += 1;
         target.querySelector("#qz-match-score").textContent = `${placedCount} / ${leftItems.length} matched`;
@@ -165,7 +167,22 @@ const Quiz = (() => {
       .replace(/\s+/g, " ");
   }
 
+  function stripGreek(s) {
+    return (s || "")
+      .replace(/µ/g, "μ")
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "")
+      .toLowerCase()
+      .replace(/ς/g, "σ")
+      .replace(/[^\p{L}]/gu, "");
+  }
+
   function isCorrect(item, answer) {
+    if (item.type === "mnemonic") {
+      // accents/breathings are hard to type from memory — match the word itself
+      const given = stripGreek(answer);
+      return !!given && (given === stripGreek(item.answerShort) || given === stripGreek(item.answer));
+    }
     if (item.type === "vocab" || item.type === "concept") {
       // answer is English text (gloss or definition) — accept if the given
       // answer is a reasonably close substring match against it.

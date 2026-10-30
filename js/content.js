@@ -15,6 +15,7 @@ const Content = (() => {
       paradigms: content.paradigms,
       parsing: content.parsing || [],
       concepts: content.concepts || [],
+      mnemonics: content.mnemonics || [],
       quizzes: reference.quizzes,
       practiceExercises: reference.practice_exercises,
     };
@@ -195,6 +196,21 @@ const Content = (() => {
         promptGreek: false,
         answer: c.definition,
         detail: c.category,
+      });
+    });
+
+    data.mnemonics.forEach((m, idx) => {
+      bank.push({
+        id: `mnemonic:${idx}`,
+        type: "mnemonic",
+        category: "Memory Devices",
+        group: "Memory Devices",
+        chapter: m.chapter,
+        prompt: m.device,
+        promptGreek: false,
+        answer: m.word,
+        answerShort: m.lemma,
+        detail: m.gloss,
       });
     });
 

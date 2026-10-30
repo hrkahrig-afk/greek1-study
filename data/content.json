@@ -11371,5 +11371,532 @@
       "chapter": 4,
       "definition": "Stative aspect in past time — a past state resulting from an earlier action."
     }
+  ],
+  "mnemonics": [
+    {
+      "word": "ἄγγελος, ὁ",
+      "lemma": "ἄγγελος",
+      "gloss": "angel, messenger",
+      "chapter": 5,
+      "device": "Natural link: angel."
+    },
+    {
+      "word": "βαπτίζω",
+      "lemma": "βαπτίζω",
+      "gloss": "I baptize, immerse, dip",
+      "chapter": 5,
+      "device": "Natural link: baptize."
+    },
+    {
+      "word": "γάρ",
+      "lemma": "γάρ",
+      "gloss": "for, because",
+      "chapter": 5,
+      "device": "A pirate growls 'GAR!' — 'for, because I said so!'"
+    },
+    {
+      "word": "ἐκεῖ",
+      "lemma": "ἐκεῖ",
+      "gloss": "there, in that place",
+      "chapter": 5,
+      "device": "'Eh-KAY?' — OK, put it THERE."
+    },
+    {
+      "word": "θεραπεύω",
+      "lemma": "θεραπεύω",
+      "gloss": "I heal",
+      "chapter": 5,
+      "device": "Natural link: therapy."
+    },
+    {
+      "word": "κἀγώ",
+      "lemma": "κἀγώ",
+      "gloss": "and I ( καί + ἐγώ )",
+      "chapter": 5,
+      "device": "AND + EGO smashed together = 'and I'."
+    },
+    {
+      "word": "κράζω",
+      "lemma": "κράζω",
+      "gloss": "I cry out",
+      "chapter": 5,
+      "device": "A CRAZY person cries out."
+    },
+    {
+      "word": "μαθητής, ὁ",
+      "lemma": "μαθητής",
+      "gloss": "disciple, follower",
+      "chapter": 5,
+      "device": "A MATH student — a learner who follows the teacher."
+    },
+    {
+      "word": "οὐ, οὐκ, οὐχ",
+      "lemma": "οὐ",
+      "gloss": "no, not",
+      "chapter": 5,
+      "device": "'OOO, no!' (Before a rough breathing, 'OUCH!' — also a no.)"
+    },
+    {
+      "word": "οὖν",
+      "lemma": "οὖν",
+      "gloss": "then, so, therefore",
+      "chapter": 5,
+      "device": "'Oon' sounds like 'soon' — so SOON, therefore."
+    },
+    {
+      "word": "οὕτως",
+      "lemma": "οὕτως",
+      "gloss": "in this manner, thus, so",
+      "chapter": 5,
+      "device": "'Who-toes' — thus, this is how you do it with your toes."
+    },
+    {
+      "word": "οὐχί",
+      "lemma": "οὐχί",
+      "gloss": "no! (emphatic)",
+      "chapter": 5,
+      "device": "'OOH-KEY!' — the key's gone, so a flat, emphatic NO."
+    },
+    {
+      "word": "ὄχλος, ὁ",
+      "lemma": "ὄχλος",
+      "gloss": "crowd",
+      "chapter": 5,
+      "device": "Natural link: ochlocracy (mob rule). Also: an OX LOST in the crowd."
+    },
+    {
+      "word": "προφήτης, ὁ",
+      "lemma": "προφήτης",
+      "gloss": "prophet",
+      "chapter": 5,
+      "device": "Natural link: prophet."
+    },
+    {
+      "word": "τέ",
+      "lemma": "τέ",
+      "gloss": "and, but",
+      "chapter": 5,
+      "device": "'Tay' is TEA — tea AND cookies."
+    },
+    {
+      "word": "ἀγαπάω",
+      "lemma": "ἀγαπάω",
+      "gloss": "I love",
+      "chapter": 6,
+      "device": "Natural link: agape love."
+    },
+    {
+      "word": "αἰτέω",
+      "lemma": "αἰτέω",
+      "gloss": "I ask, demand",
+      "chapter": 6,
+      "device": "'Ate-eh-oh' — who ASKED who ATE my lunch? I DEMAND an answer."
+    },
+    {
+      "word": "ἀκολουθέω",
+      "lemma": "ἀκολουθέω",
+      "gloss": "I follow",
+      "chapter": 6,
+      "device": "Natural link: acolyte, an attendant who follows."
+    },
+    {
+      "word": "γεννάω",
+      "lemma": "γεννάω",
+      "gloss": "I give birth to, bear, beget",
+      "chapter": 6,
+      "device": "Natural link: genesis, gene — genes get passed on."
+    },
+    {
+      "word": "ἐπερωτάω",
+      "lemma": "ἐπερωτάω",
+      "gloss": "I ask",
+      "chapter": 6,
+      "device": "'Upon' + ask: ask UPON someone — a pushy follow-up question."
+    },
+    {
+      "word": "ἐρωτάω",
+      "lemma": "ἐρωτάω",
+      "gloss": "I ask, question, request",
+      "chapter": 6,
+      "device": "EROS (Cupid) asks 'Will you be mine?'"
+    },
+    {
+      "word": "ζητέω",
+      "lemma": "ζητέω",
+      "gloss": "I seek, look for",
+      "chapter": 6,
+      "device": "'ZEET-eh-oh' — seeking the ZIT on your face in the mirror."
+    },
+    {
+      "word": "καλέω",
+      "lemma": "καλέω",
+      "gloss": "I call, invite, name",
+      "chapter": 6,
+      "device": "'KAL-eh-oh' sounds like CALL."
+    },
+    {
+      "word": "λαλέω",
+      "lemma": "λαλέω",
+      "gloss": "I speak, say",
+      "chapter": 6,
+      "device": "'La-la-la' — babbling away, speaking."
+    },
+    {
+      "word": "μαρτυρέω",
+      "lemma": "μαρτυρέω",
+      "gloss": "I testify, bear witness",
+      "chapter": 6,
+      "device": "Natural link: martyr, a witness."
+    },
+    {
+      "word": "παρακαλέω",
+      "lemma": "παρακαλέω",
+      "gloss": "I call, urge, comfort",
+      "chapter": 6,
+      "device": "Natural link: Paraclete — the Comforter called alongside."
+    },
+    {
+      "word": "περιπατέω",
+      "lemma": "περιπατέω",
+      "gloss": "I walk, live",
+      "chapter": 6,
+      "device": "Natural link: peripatetic — walking around."
+    },
+    {
+      "word": "πληρόω",
+      "lemma": "πληρόω",
+      "gloss": "I fill, fulfill, complete",
+      "chapter": 6,
+      "device": "'Plenty' — fill it to PLENTY, fulfill."
+    },
+    {
+      "word": "ποιέω",
+      "lemma": "ποιέω",
+      "gloss": "I do, make",
+      "chapter": 6,
+      "device": "Natural link: poem, poet — a maker."
+    },
+    {
+      "word": "φοβέομαι",
+      "lemma": "φοβέομαι",
+      "gloss": "I am afraid, fear, respect",
+      "chapter": 6,
+      "device": "Natural link: phobia."
+    },
+    {
+      "word": "ἀπό",
+      "lemma": "ἀπό",
+      "gloss": "from, away from (gen)",
+      "chapter": 7,
+      "device": "Natural link: apostasy — standing away from. A-POOF! You vanish away FROM the room."
+    },
+    {
+      "word": "διά",
+      "lemma": "διά",
+      "gloss": "through (gen); because of (acc)",
+      "chapter": 7,
+      "device": "Natural link: diameter runs THROUGH the circle. Because of the dia-ry, I got caught."
+    },
+    {
+      "word": "εἰς",
+      "lemma": "εἰς",
+      "gloss": "into, among, for (acc)",
+      "chapter": 7,
+      "device": "'Ice' — jump INTO the ice."
+    },
+    {
+      "word": "ἐκ",
+      "lemma": "ἐκ",
+      "gloss": "from, out of (gen)",
+      "chapter": 7,
+      "device": "Natural link: exit, ex-."
+    },
+    {
+      "word": "ἐν",
+      "lemma": "ἐν",
+      "gloss": "in, on, at, by, with (dat)",
+      "chapter": 7,
+      "device": "Natural link: en-ter, en-close — it looks like 'in'."
+    },
+    {
+      "word": "ἐνώπιον",
+      "lemma": "ἐνώπιον",
+      "gloss": "before, in the presence of",
+      "chapter": 7,
+      "device": "'In' + 'optic' (eye): IN the EYEsight of someone — in their presence."
+    },
+    {
+      "word": "ἐπί",
+      "lemma": "ἐπί",
+      "gloss": "on, upon, over (gen); on, upon, at, in (dat); on, upon, to, for (acc)",
+      "chapter": 7,
+      "device": "Natural link: epidermis (upon the skin), epitaph (upon the tomb)."
+    },
+    {
+      "word": "κατά",
+      "lemma": "κατά",
+      "gloss": "down, against (gen); according to (acc)",
+      "chapter": 7,
+      "device": "Natural link: cat-astrophe falling DOWN; a CAT slides DOWN the glass AGAINST it; cat-alog = according to the list."
+    },
+    {
+      "word": "μετά",
+      "lemma": "μετά",
+      "gloss": "with, among (gen); after (acc)",
+      "chapter": 7,
+      "device": "Natural link: metaphysics — the book placed AFTER Physics. 'MEET-a' friend WITH you."
+    },
+    {
+      "word": "παρά",
+      "lemma": "παρά",
+      "gloss": "from (gen); with (dat); beside, on, at (acc)",
+      "chapter": 7,
+      "device": "Natural link: parallel lines run BESIDE each other; paramedic works beside the doctor."
+    },
+    {
+      "word": "περί",
+      "lemma": "περί",
+      "gloss": "about, concerning (gen); around (acc)",
+      "chapter": 7,
+      "device": "Natural link: perimeter goes AROUND; periscope looks around."
+    },
+    {
+      "word": "πρός",
+      "lemma": "πρός",
+      "gloss": "to, toward (acc)",
+      "chapter": 7,
+      "device": "Natural link: proselyte — one who has come TOWARD the faith."
+    },
+    {
+      "word": "σύν",
+      "lemma": "σύν",
+      "gloss": "with (dat)",
+      "chapter": 7,
+      "device": "Natural link: synchronize, sympathy, synagogue — all 'with'."
+    },
+    {
+      "word": "ὑπέρ",
+      "lemma": "ὑπέρ",
+      "gloss": "for, on behalf of (gen); above, beyond (acc)",
+      "chapter": 7,
+      "device": "Natural link: hyper — HYPER-protective ON BEHALF of you, bouncing ABOVE and BEYOND."
+    },
+    {
+      "word": "ὑπό",
+      "lemma": "ὑπό",
+      "gloss": "by (gen); under, below (acc)",
+      "chapter": 7,
+      "device": "Natural link: hypodermic goes UNDER the skin; hypothermia is BELOW normal temperature."
+    },
+    {
+      "word": "ἄρτος, ὁ",
+      "lemma": "ἄρτος",
+      "gloss": "bread, food",
+      "chapter": 8,
+      "device": "Natural link: artisan bread."
+    },
+    {
+      "word": "αὐτός, –ή, –ό",
+      "lemma": "αὐτός",
+      "gloss": "he, she, it; self, same",
+      "chapter": 8,
+      "device": "Natural link: auto-, automatic, autograph — all 'self'."
+    },
+    {
+      "word": "δικαιοσύνη, ἡ",
+      "lemma": "δικαιοσύνη",
+      "gloss": "righteousness, justice",
+      "chapter": 8,
+      "device": "DIKE was the goddess of justice, and when justice is done it's SUNNY."
+    },
+    {
+      "word": "ἐγώ, ἡμεῖς",
+      "lemma": "ἐγώ",
+      "gloss": "I; we",
+      "chapter": 8,
+      "device": "Natural link: ego. (And 'we' is 'hay-MICE': WE are mice.)"
+    },
+    {
+      "word": "εἰρήνη, ἡ",
+      "lemma": "εἰρήνη",
+      "gloss": "peace",
+      "chapter": 8,
+      "device": "Natural link: the name Irene means peace."
+    },
+    {
+      "word": "ἐξουσία, ἡ",
+      "lemma": "ἐξουσία",
+      "gloss": "authority, right, power",
+      "chapter": 8,
+      "device": "EX-OOO-see-ya: the EXecutive wields authority and the little people go 'ooh'."
+    },
+    {
+      "word": "θάλασσα, ἡ",
+      "lemma": "θάλασσα",
+      "gloss": "lake, sea",
+      "chapter": 8,
+      "device": "Natural link: thalassic (of the sea). A LASS sails the sea."
+    },
+    {
+      "word": "λαός, ὁ",
+      "lemma": "λαός",
+      "gloss": "people, crowd",
+      "chapter": 8,
+      "device": "People live in Loas. (Natural link: laity.)"
+    },
+    {
+      "word": "ὁδός, ἡ",
+      "lemma": "ὁδός",
+      "gloss": "way, road",
+      "chapter": 8,
+      "device": "Natural link: odometer measures the road; exodus is the way out."
+    },
+    {
+      "word": "οἰκία, ἡ",
+      "lemma": "οἰκία",
+      "gloss": "home, dwelling, family",
+      "chapter": 8,
+      "device": "'Oy, key-a!' — you lost the key to your HOME."
+    },
+    {
+      "word": "οἶκος, ὁ",
+      "lemma": "οἶκος",
+      "gloss": "house, household, family",
+      "chapter": 8,
+      "device": "Natural link: economy — household rules."
+    },
+    {
+      "word": "ὅς, ἥ, ὅ",
+      "lemma": "ὅς",
+      "gloss": "who, which, that",
+      "chapter": 8,
+      "device": "'HOSE!' — WHO left the hose on? WHICH one? THAT one!"
+    },
+    {
+      "word": "ὀφθαλμός, ὁ",
+      "lemma": "ὀφθαλμός",
+      "gloss": "eye",
+      "chapter": 8,
+      "device": "Natural link: ophthalmologist."
+    },
+    {
+      "word": "σύ, ὑμεῖς",
+      "lemma": "σύ",
+      "gloss": "you (sg); you (pl)",
+      "chapter": 8,
+      "device": "'SOO' — YOU, Sue. (And 'you all' is 'hoo-MICE': you mice.)"
+    },
+    {
+      "word": "τόπος, ὁ",
+      "lemma": "τόπος",
+      "gloss": "place",
+      "chapter": 8,
+      "device": "Natural link: topography, topic — a place in the discussion."
+    },
+    {
+      "word": "ἀπόστολος, ὁ",
+      "lemma": "ἀπόστολος",
+      "gloss": "apostle, messenger",
+      "chapter": 9,
+      "device": "Natural link: apostle — 'away' + 'sent': one sent away."
+    },
+    {
+      "word": "διώκω",
+      "lemma": "διώκω",
+      "gloss": "I pursue, persecute",
+      "chapter": 9,
+      "device": "'DEE-OH-ko!' they yell as they chase and persecute you."
+    },
+    {
+      "word": "δοξάζω",
+      "lemma": "δοξάζω",
+      "gloss": "I glorify, praise",
+      "chapter": 9,
+      "device": "Natural link: doxology, orthodox ('right praise')."
+    },
+    {
+      "word": "ἐντολή, ἡ",
+      "lemma": "ἐντολή",
+      "gloss": "command",
+      "chapter": 9,
+      "device": "'EN-TOLL-ay' — you pay a TOLL because the law COMMANDS it."
+    },
+    {
+      "word": "ἔτι",
+      "lemma": "ἔτι",
+      "gloss": "still, yet, more",
+      "chapter": 9,
+      "device": "'ET-ee' — E.T. is STILL out there, YET more to come."
+    },
+    {
+      "word": "καιρός, ὁ",
+      "lemma": "καιρός",
+      "gloss": "time, season",
+      "chapter": 9,
+      "device": "'KAIROS' sounds like Cairo — the right season to visit; the opportune moment."
+    },
+    {
+      "word": "κεφαλή, ἡ",
+      "lemma": "κεφαλή",
+      "gloss": "head",
+      "chapter": 9,
+      "device": "Natural link: cephalic (of the head), hydrocephalus (water on the head)."
+    },
+    {
+      "word": "μᾶλλον",
+      "lemma": "μᾶλλον",
+      "gloss": "more, rather",
+      "chapter": 9,
+      "device": "'MALL-on' — the MALL has MORE stores; I'd RATHER go."
+    },
+    {
+      "word": "οὐκέτι",
+      "lemma": "οὐκέτι",
+      "gloss": "no longer",
+      "chapter": 9,
+      "device": "NOT + STILL = no longer."
+    },
+    {
+      "word": "πέμπω",
+      "lemma": "πέμπω",
+      "gloss": "I send",
+      "chapter": 9,
+      "device": "'PUMP-oh' — PUMP it out and SEND it. (Natural link: pomp, a procession sent forth.)"
+    },
+    {
+      "word": "πράσσω",
+      "lemma": "πράσσω",
+      "gloss": "I do, practice",
+      "chapter": 9,
+      "device": "Natural link: practice, practical, pragmatic."
+    },
+    {
+      "word": "πρόσωπον, τό",
+      "lemma": "πρόσωπον",
+      "gloss": "face, appearance",
+      "chapter": 9,
+      "device": "Natural link: prosopagnosia (face blindness). A PRO pops his FACE on camera: 'oh, PON!'"
+    },
+    {
+      "word": "σάββατον, τό",
+      "lemma": "σάββατον",
+      "gloss": "Sabbath, week",
+      "chapter": 9,
+      "device": "Natural link: Sabbath."
+    },
+    {
+      "word": "σῴζω",
+      "lemma": "σῴζω",
+      "gloss": "I save, rescue, heal",
+      "chapter": 9,
+      "device": "'SO-zo' — 'So, zo, you're SAVED!' (Natural link: soteriology.)"
+    },
+    {
+      "word": "τηρέω",
+      "lemma": "τηρέω",
+      "gloss": "I keep, guard, obey",
+      "chapter": 9,
+      "device": "'TAIR-eh-oh' — TERRY the guard KEEPS the gate."
+    }
   ]
 }

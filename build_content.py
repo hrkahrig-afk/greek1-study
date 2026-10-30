@@ -390,6 +390,125 @@ GRAMMAR_CONCEPTS = [
 ]
 
 
+# Memory devices (mnemonics) for chapter 5-9 vocabulary. Keyed by the word's
+# first form as it appears in the vocabulary list; the meaning/chapter are
+# looked up from the real vocabulary data at build time, not retyped here.
+# "Natural link" = a real English cognate/derivative; the rest are
+# deliberately silly sound-alikes (memory aids, not word origins).
+MNEMONICS = [
+    # Chapter 5
+    ("ἄγγελος", "Natural link: angel."),
+    ("βαπτίζω", "Natural link: baptize."),
+    ("γάρ", "A pirate growls 'GAR!' — 'for, because I said so!'"),
+    ("ἐκεῖ", "'Eh-KAY?' — OK, put it THERE."),
+    ("θεραπεύω", "Natural link: therapy."),
+    ("κἀγώ", "AND + EGO smashed together = 'and I'."),
+    ("κράζω", "A CRAZY person cries out."),
+    ("μαθητής", "A MATH student — a learner who follows the teacher."),
+    ("οὐ", "'OOO, no!' (Before a rough breathing, 'OUCH!' — also a no.)"),
+    ("οὖν", "'Oon' sounds like 'soon' — so SOON, therefore."),
+    ("οὕτως", "'Who-toes' — thus, this is how you do it with your toes."),
+    ("οὐχί", "'OOH-KEY!' — the key's gone, so a flat, emphatic NO."),
+    ("ὄχλος", "Natural link: ochlocracy (mob rule). Also: an OX LOST in the crowd."),
+    ("προφήτης", "Natural link: prophet."),
+    ("τέ", "'Tay' is TEA — tea AND cookies."),
+    # Chapter 6
+    ("ἀγαπάω", "Natural link: agape love."),
+    ("αἰτέω", "'Ate-eh-oh' — who ASKED who ATE my lunch? I DEMAND an answer."),
+    ("ἀκολουθέω", "Natural link: acolyte, an attendant who follows."),
+    ("γεννάω", "Natural link: genesis, gene — genes get passed on."),
+    ("ἐπερωτάω", "'Upon' + ask: ask UPON someone — a pushy follow-up question."),
+    ("ἐρωτάω", "EROS (Cupid) asks 'Will you be mine?'"),
+    ("ζητέω", "'ZEET-eh-oh' — seeking the ZIT on your face in the mirror."),
+    ("καλέω", "'KAL-eh-oh' sounds like CALL."),
+    ("λαλέω", "'La-la-la' — babbling away, speaking."),
+    ("μαρτυρέω", "Natural link: martyr, a witness."),
+    ("παρακαλέω", "Natural link: Paraclete — the Comforter called alongside."),
+    ("περιπατέω", "Natural link: peripatetic — walking around."),
+    ("πληρόω", "'Plenty' — fill it to PLENTY, fulfill."),
+    ("ποιέω", "Natural link: poem, poet — a maker."),
+    ("φοβέομαι", "Natural link: phobia."),
+    # Chapter 7
+    ("ἀπό", "Natural link: apostasy — standing away from. A-POOF! You vanish away FROM the room."),
+    ("διά", "Natural link: diameter runs THROUGH the circle. Because of the dia-ry, I got caught."),
+    ("εἰς", "'Ice' — jump INTO the ice."),
+    ("ἐκ", "Natural link: exit, ex-."),
+    ("ἐν", "Natural link: en-ter, en-close — it looks like 'in'."),
+    ("ἐνώπιον", "'In' + 'optic' (eye): IN the EYEsight of someone — in their presence."),
+    ("ἐπί", "Natural link: epidermis (upon the skin), epitaph (upon the tomb)."),
+    ("κατά", "Natural link: cat-astrophe falling DOWN; a CAT slides DOWN the glass AGAINST it; cat-alog = according to the list."),
+    ("μετά", "Natural link: metaphysics — the book placed AFTER Physics. 'MEET-a' friend WITH you."),
+    ("παρά", "Natural link: parallel lines run BESIDE each other; paramedic works beside the doctor."),
+    ("περί", "Natural link: perimeter goes AROUND; periscope looks around."),
+    ("πρός", "Natural link: proselyte — one who has come TOWARD the faith."),
+    ("σύν", "Natural link: synchronize, sympathy, synagogue — all 'with'."),
+    ("ὑπέρ", "Natural link: hyper — HYPER-protective ON BEHALF of you, bouncing ABOVE and BEYOND."),
+    ("ὑπό", "Natural link: hypodermic goes UNDER the skin; hypothermia is BELOW normal temperature."),
+    # Chapter 8
+    ("ἄρτος", "Natural link: artisan bread."),
+    ("αὐτός", "Natural link: auto-, automatic, autograph — all 'self'."),
+    ("δικαιοσύνη", "DIKE was the goddess of justice, and when justice is done it's SUNNY."),
+    ("ἐγώ", "Natural link: ego. (And 'we' is 'hay-MICE': WE are mice.)"),
+    ("εἰρήνη", "Natural link: the name Irene means peace."),
+    ("ἐξουσία", "EX-OOO-see-ya: the EXecutive wields authority and the little people go 'ooh'."),
+    ("θάλασσα", "Natural link: thalassic (of the sea). A LASS sails the sea."),
+    ("λαός", "People live in Loas. (Natural link: laity.)"),
+    ("ὁδός", "Natural link: odometer measures the road; exodus is the way out."),
+    ("οἰκία", "'Oy, key-a!' — you lost the key to your HOME."),
+    ("οἶκος", "Natural link: economy — household rules."),
+    ("ὅς", "'HOSE!' — WHO left the hose on? WHICH one? THAT one!"),
+    ("ὀφθαλμός", "Natural link: ophthalmologist."),
+    ("σύ", "'SOO' — YOU, Sue. (And 'you all' is 'hoo-MICE': you mice.)"),
+    ("τόπος", "Natural link: topography, topic — a place in the discussion."),
+    # Chapter 9
+    ("ἀπόστολος", "Natural link: apostle — 'away' + 'sent': one sent away."),
+    ("διώκω", "'DEE-OH-ko!' they yell as they chase and persecute you."),
+    ("δοξάζω", "Natural link: doxology, orthodox ('right praise')."),
+    ("ἐντολή", "'EN-TOLL-ay' — you pay a TOLL because the law COMMANDS it."),
+    ("ἔτι", "'ET-ee' — E.T. is STILL out there, YET more to come."),
+    ("καιρός", "'KAIROS' sounds like Cairo — the right season to visit; the opportune moment."),
+    ("κεφαλή", "Natural link: cephalic (of the head), hydrocephalus (water on the head)."),
+    ("μᾶλλον", "'MALL-on' — the MALL has MORE stores; I'd RATHER go."),
+    ("οὐκέτι", "NOT + STILL = no longer."),
+    ("πέμπω", "'PUMP-oh' — PUMP it out and SEND it. (Natural link: pomp, a procession sent forth.)"),
+    ("πράσσω", "Natural link: practice, practical, pragmatic."),
+    ("πρόσωπον", "Natural link: prosopagnosia (face blindness). A PRO pops his FACE on camera: 'oh, PON!'"),
+    ("σάββατον", "Natural link: Sabbath."),
+    ("σῴζω", "'SO-zo' — 'So, zo, you're SAVED!' (Natural link: soteriology.)"),
+    ("τηρέω", "'TAIR-eh-oh' — TERRY the guard KEEPS the gate."),
+]
+
+
+def _vocab_key(s):
+    s = s.replace("µ", "μ").replace(",", " ").strip()
+    first = s.split()[0] if s.split() else s
+    decomposed = unicodedata.normalize("NFD", first)
+    return "".join(c for c in decomposed if unicodedata.category(c) != "Mn").lower()
+
+
+def build_mnemonics(vocabulary):
+    by_key = {}
+    for v in vocabulary:
+        by_key.setdefault(_vocab_key(v["word"]), []).append(v)
+    out, missing = [], []
+    for word, device in MNEMONICS:
+        hits = by_key.get(_vocab_key(word))
+        if not hits:
+            missing.append(word)
+            continue
+        v = hits[0]
+        out.append({
+            "word": v["word"],
+            "lemma": v["word"].split(",")[0].strip(),
+            "gloss": v["gloss"],
+            "chapter": v["chapter"],
+            "device": device,
+        })
+    if missing:
+        print(f"WARNING: no vocabulary match for mnemonics: {missing}")
+    return out
+
+
 def main():
     with zipfile.ZipFile(EPUB_PATH) as zf:
         chapter_names = sorted(
@@ -402,6 +521,7 @@ def main():
         paradigms = extract_paradigms(zf)
         paradigms = tag_paradigms_with_chapter(paradigms)
         parsing = extract_parsing(zf)
+        mnemonics = build_mnemonics(vocabulary)
 
     content = {
         "chapters": chapters,
@@ -410,6 +530,7 @@ def main():
         "paradigms": paradigms,
         "parsing": parsing,
         "concepts": GRAMMAR_CONCEPTS,
+        "mnemonics": mnemonics,
     }
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -423,6 +544,7 @@ def main():
     print(f"Paradigm tables: {len(paradigms)} ({untagged} untagged)")
     print(f"Parsing entries: {len(parsing)}")
     print(f"Grammar concepts: {len(GRAMMAR_CONCEPTS)}")
+    print(f"Memory devices: {len(mnemonics)}")
 
 
 if __name__ == "__main__":
