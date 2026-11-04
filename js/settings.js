@@ -1,4 +1,12 @@
 const Settings = (() => {
+  // Counts of raw input events the page receives (capture phase), so a phone
+  // that isn't delivering taps can be told apart from code that isn't reacting.
+  const seen = { pointerdown: 0, touchstart: 0, touchend: 0, click: 0 };
+  Object.keys(seen).forEach((type) =>
+    document.addEventListener(type, () => { seen[type] += 1; }, true)
+  );
+  let testTaps = 0;
+
   function storageNote() {
     const mode = SRS.getStorageMode();
     if (mode === "claude") return "Saving: progress is stored with Claude and survives reloads.";
@@ -24,6 +32,15 @@ const Settings = (() => {
       </div>
 
       <div class="card">
+        <h2>Troubleshooting</h2>
+        <p class="flash-meta">If buttons aren't responding, tap the test button below five times, then read me the numbers.</p>
+        <button class="btn" id="st-taptest">Tap test</button>
+        <p class="flash-meta" id="st-tapstats"></p>
+        <p class="flash-meta" id="st-env"></p>
+        <p class="flash-meta" id="st-errors"></p>
+      </div>
+
+      <div class="card">
         <h2>Progress backup</h2>
         <p style="color:var(--text-dim)">Export your progress to keep a backup or move to another machine.</p>
         <p class="flash-meta" id="st-storage">${esc(storageNote())}</p>
@@ -40,6 +57,25 @@ const Settings = (() => {
         <div id="st-msg"></div>
       </div>
     `;
+
+    function paintDiagnostics() {
+      const stats = container.querySelector("#st-tapstats");
+      if (!stats) return false;
+      stats.textContent = `Taps on the test button: ${testTaps}. Events the page received: pointerdown ${seen.pointerdown}, touchstart ${seen.touchstart}, touchend ${seen.touchend}, click ${seen.click}.`;
+      container.querySelector("#st-env").textContent =
+        `Touch device: ${MatchGame.isTouchDevice() ? "yes" : "no"}. Claude runtime: ${window.claude ? "present" : "absent"}. Saving mode: ${SRS.getStorageMode()}.`;
+      const errs = window.__appErrors || [];
+      container.querySelector("#st-errors").textContent = errs.length
+        ? `Errors since load (${errs.length}): ${errs.slice(-3).join(" | ")}`
+        : "Errors since load: none.";
+      return true;
+    }
+    paintDiagnostics();
+    const timer = setInterval(() => { if (!paintDiagnostics()) clearInterval(timer); }, 500);
+    container.querySelector("#st-taptest").addEventListener("click", () => {
+      testTaps += 1;
+      paintDiagnostics();
+    });
 
     const slider = container.querySelector("#st-chapter");
     slider.addEventListener("input", () => {

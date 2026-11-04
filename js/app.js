@@ -1,3 +1,10 @@
+// Errors seen since page load, shown in Settings > Troubleshooting.
+window.__appErrors = [];
+window.addEventListener("error", (e) => window.__appErrors.push(String(e.message)));
+window.addEventListener("unhandledrejection", (e) =>
+  window.__appErrors.push("promise: " + String((e.reason && e.reason.message) || e.reason))
+);
+
 const App = (() => {
   let pendingFocusGroup = null;
 
