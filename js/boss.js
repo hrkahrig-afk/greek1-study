@@ -9,15 +9,18 @@
 //           then a mixed boss-rage round of your weakest words.
 const BossBattle = (() => {
   const EMOJI = ["🐉","👹","🦂","🐍","🦅","🐺","🧌","🦑","🐙","🦈","🐗","🦁","👻","💀","🕷️","🐲","🦇","🐊","🧟","🦖","🐻","🦍","🐅","👑"];
+  // A chapter boss asks EVERY vocabulary word in that chapter (vocab: null =
+  // all). The cumulative boss draws from hundreds of words, so it samples.
   const SIZES = {
-    chapter: { vocab: 8, forms: 6, parse: 5, rage: 5 },
-    cumulative: { vocab: 12, forms: 8, parse: 6, rage: 6 },
+    chapter: { vocab: null, terms: 6, forms: 6, parse: 5, rage: 5 },
+    cumulative: { vocab: 12, terms: 4, forms: 8, parse: 6, rage: 6 },
   };
   const VOCAB_SIZES = {
-    chapter: { g2e: 8, e2g: 8, rage: 6 },
-    cumulative: { g2e: 12, e2g: 12, rage: 8 },
+    chapter: { words: null, rage: 6 },
+    cumulative: { words: 12, rage: 8 },
   };
-  const HP_FACTOR = 0.9;  // boss HP vs. total possible damage — leaves room for a few misses
+  const RAGE_NAME = "Boss Rage: your misses return (double damage)";
+  const HP_FACTOR = 0.95; // boss HP vs. total possible damage — leaves room for a few misses
   const HEAL_ON_MISS = 0.5;
   const POWER_EVERY = 5; // every 5th correct in a row hits double
 
@@ -75,7 +78,7 @@ const BossBattle = (() => {
       </div>
       <p style="color:var(--text-dim);">${
         vocab
-          ? "Vocabulary only. Some rounds show the Greek word and you pick the meaning; others show the meaning and you pick the Greek word. The boss-rage round mixes both on your weakest words."
+          ? "Vocabulary only. Every word in the chapter is asked once showing the Greek word (you pick the meaning), then again showing the meaning (you pick the Greek word). The boss-rage round brings back the words you missed."
           : "Vocabulary, forms and parsing. Tap the right answer to hit the boss."
       } A wrong answer costs a heart and the boss heals a little. Five right in a row lands a power attack. Win with all 3 hearts for 3 stars.</p>
       <div class="card">
@@ -137,28 +140,47 @@ const BossBattle = (() => {
     const rounds = [];
     const used = new Set();
     const byType = (types) => pool.filter((i) => types.includes(i.type));
+
+    // Round 1: every vocab word (chapter boss) or a sample (cumulative),
+    // plus a few alphabet letters / grammar terms where the chapter has them.
+    const vocabPool = byType(["vocab"]);
+    const termPool = byType(["alphabet", "concept"]);
+    const vocabItems = sizes.vocab == null ? vocabPool : SRS.buildQueue(vocabPool, sizes.vocab);
+    const termItems = termPool.length ? SRS.buildQueue(termPool, sizes.terms) : [];
+    const r1 = SRS.shuffle([...vocabItems, ...termItems]);
+    if (r1.length) {
+      r1.forEach((i) => used.add(i.id));
+      rounds.push({ name: "Vocabulary & Terms", items: r1, mult: 1, dir: "g2e" });
+    }
+
     const add = (name, list, n) => {
       if (!list.length) return;
       const picked = SRS.buildQueue(list, n);
       picked.forEach((i) => used.add(i.id));
       rounds.push({ name, items: picked, mult: 1, dir: "g2e" });
     };
-    add("Vocabulary & Terms", byType(["vocab", "alphabet", "concept"]), sizes.vocab);
     add("Forms", byType(["paradigm"]), sizes.forms);
     add("Parsing", byType(["parsing"]), sizes.parse);
 
     const leftovers = pool.filter((i) => !used.has(i.id));
     const rage = weakestFirst(leftovers.length >= sizes.rage ? leftovers : pool, sizes.rage);
-    if (rage.length) rounds.push({ name: "Boss Rage (double damage)", items: rage, mult: 2, dir: "g2e" });
+    if (rage.length) rounds.push({ name: RAGE_NAME, items: rage, mult: 2, dir: "g2e", rage: true });
     return rounds;
   }
 
   function buildVocabRounds(pool, sizes) {
     if (!pool.length) return [];
+    // The same words are asked in both directions, so a word you miss going
+    // one way comes back the other way later in the same fight.
+    const words = sizes.words == null ? SRS.shuffle([...pool]) : SRS.buildQueue(pool, sizes.words);
+    const reversed = SRS.shuffle([...words]);
+    if (reversed.length > 1 && reversed[0].id === words[words.length - 1].id) {
+      [reversed[0], reversed[1]] = [reversed[1], reversed[0]]; // no back-to-back repeat
+    }
     return [
-      { name: "Greek → Meaning", items: SRS.buildQueue(pool, sizes.g2e), mult: 1, dir: "g2e" },
-      { name: "Meaning → Greek", items: SRS.buildQueue(pool, sizes.e2g), mult: 1, dir: "e2g" },
-      { name: "Boss Rage (mixed, double damage)", items: weakestFirst(pool, sizes.rage), mult: 2, dir: "mixed" },
+      { name: "Greek → Meaning", items: words, mult: 1, dir: "g2e" },
+      { name: "Meaning → Greek", items: reversed, mult: 1, dir: "e2g" },
+      { name: RAGE_NAME, items: weakestFirst(pool, sizes.rage), mult: 2, dir: "mixed", rage: true },
     ];
   }
 
@@ -198,33 +220,62 @@ const BossBattle = (() => {
     return { options, correctIdx: options.indexOf(correct), reverse };
   }
 
+  function makeQuestion(item, round, rIdx, source) {
+    let dir = round.dir || "g2e";
+    if (dir === "mixed") dir = Math.random() < 0.5 ? "e2g" : "g2e";
+    const opts = buildOptions(item, source, dir);
+    if (!opts) return null;
+    return {
+      item,
+      round: rIdx,
+      mult: round.mult,
+      ...opts,
+      promptText: opts.reverse ? item.answer : item.prompt,
+      promptGreek: opts.reverse ? false : item.promptGreek,
+      greekOptions: opts.reverse || item.type === "paradigm",
+    };
+  }
+
   function makeBattle({ key, label, emoji, rounds, record, vocab }) {
     const source = Content.itemsUpToChapter(SRS.getCurrentChapter());
     const questions = [];
     rounds.forEach((round, rIdx) => {
       round.items.forEach((item) => {
-        let dir = round.dir || "g2e";
-        if (dir === "mixed") dir = Math.random() < 0.5 ? "e2g" : "g2e";
-        const opts = buildOptions(item, source, dir);
-        if (!opts) return;
-        questions.push({
-          item,
-          round: rIdx,
-          mult: round.mult,
-          ...opts,
-          promptText: opts.reverse ? item.answer : item.prompt,
-          promptGreek: opts.reverse ? false : item.promptGreek,
-          greekOptions: opts.reverse || item.type === "paradigm",
-        });
+        const q = makeQuestion(item, round, rIdx, source);
+        if (q) questions.push(q);
       });
     });
     const totalPossible = questions.reduce((sum, q) => sum + q.mult, 0);
     const maxHp = totalPossible * HP_FACTOR;
     return {
-      key, label, emoji, rounds, record, vocab, questions,
+      key, label, emoji, rounds, record, vocab, questions, source,
+      rageIdx: rounds.findIndex((r) => r.rage), rageBuilt: false,
       maxHp, hp: maxHp, hearts: 3, streak: 0, i: 0,
       correctCount: 0, answeredCount: 0, missed: [], answered: false,
     };
+  }
+
+  // When the rage round starts, swap its pre-planned questions for the words
+  // missed so far in THIS fight (topped up with the originally planned ones),
+  // so a miss is re-tested in the same sitting.
+  function rebuildRage(b) {
+    b.rageBuilt = true;
+    if (!b.missed.length) return;
+    const start = b.i;
+    const count = b.questions.length - start; // the rage round is always last
+    const round = b.rounds[b.rageIdx];
+    const picked = [];
+    const seen = new Set();
+    const take = (item) => {
+      if (picked.length < count && !seen.has(item.id)) {
+        seen.add(item.id);
+        picked.push(item);
+      }
+    };
+    SRS.shuffle([...b.missed]).forEach(take);
+    b.questions.slice(start).forEach((q) => take(q.item));
+    const fresh = picked.map((item) => makeQuestion(item, round, b.rageIdx, b.source)).filter(Boolean);
+    if (fresh.length) b.questions.splice(start, count, ...fresh);
   }
 
   function startFromKey(container, key, vocab) {
@@ -362,6 +413,7 @@ const BossBattle = (() => {
       else if (lastQuestion) finish(container, b, "survived");
       else {
         b.i += 1;
+        if (b.rageIdx !== -1 && !b.rageBuilt && b.questions[b.i].round === b.rageIdx) rebuildRage(b);
         renderQuestion(container, b);
       }
     };
