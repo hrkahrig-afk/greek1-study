@@ -8,6 +8,9 @@ const SRS = (() => {
   const DB_DOC_PATH = "progress/state";
 
   let dbRef = null; // DocumentReference once db capability resolves, else null
+  // "claude" = Artifact db, "browser" = localStorage, "memory" = nothing can be
+  // saved in this view (progress lasts until the page closes).
+  let storageMode = "browser";
   let writeChain = Promise.resolve(); // serialize db writes, one at a time
 
   function todayISO() {
@@ -55,6 +58,7 @@ const SRS = (() => {
     }
 
     if (dbRef) {
+      storageMode = "claude";
       try {
         const snap = await dbRef.get();
         if (snap.exists) {
@@ -67,19 +71,43 @@ const SRS = (() => {
         dbRef = null;
       }
     }
+    storageMode = canUseLocalStorage() ? "browser" : "memory";
     state = loadFromLocalStorage();
   }
 
-  function persist() {
-    if (dbRef) {
-      const ref = dbRef;
-      const snapshot = state;
-      writeChain = writeChain
-        .then(() => ref.set(snapshot))
-        .catch((e) => console.error("Failed to save progress.", e));
-      return;
+  function canUseLocalStorage() {
+    try {
+      const probe = "__greek1_probe";
+      localStorage.setItem(probe, "1");
+      localStorage.removeItem(probe);
+      return true;
+    } catch (e) {
+      return false;
     }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  // Saving must never be able to break the game: every answer handler calls
+  // grade() (which saves) before it updates the screen, so a throwing save
+  // used to leave the answer buttons dead. Failures now just mean "not saved".
+  function persist() {
+    try {
+      if (dbRef) {
+        const ref = dbRef;
+        const snapshot = state;
+        writeChain = writeChain
+          .then(() => ref.set(snapshot))
+          .catch((e) => console.error("Failed to save progress.", e));
+        return;
+      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      storageMode = "memory";
+      console.error("Progress could not be saved in this view.", e);
+    }
+  }
+
+  function getStorageMode() {
+    return storageMode;
   }
 
   function getItemState(id) {
@@ -229,6 +257,7 @@ const SRS = (() => {
 
   return {
     init,
+    getStorageMode,
     grade,
     isDue,
     peekItem,

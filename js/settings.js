@@ -1,4 +1,11 @@
 const Settings = (() => {
+  function storageNote() {
+    const mode = SRS.getStorageMode();
+    if (mode === "claude") return "Saving: progress is stored with Claude and survives reloads.";
+    if (mode === "browser") return "Saving: progress is stored in this browser only.";
+    return "Saving: progress can't be saved in this view, so it resets when you close it. Use Download Progress to keep a copy.";
+  }
+
   function render(container) {
     const data = Content.getData();
     const chapter = SRS.getCurrentChapter();
@@ -18,7 +25,8 @@ const Settings = (() => {
 
       <div class="card">
         <h2>Progress backup</h2>
-        <p style="color:var(--text-dim)">Progress is stored in this browser only. Export it to keep a backup or move to another machine.</p>
+        <p style="color:var(--text-dim)">Export your progress to keep a backup or move to another machine.</p>
+        <p class="flash-meta" id="st-storage">${esc(storageNote())}</p>
         <div class="row">
           <button class="btn" id="st-export">Download Progress</button>
           <button class="btn secondary" id="st-reset">Reset All Progress</button>
