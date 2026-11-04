@@ -5,6 +5,7 @@ const App = (() => {
     dashboard: Dashboard,
     flashcards: Flashcards,
     quiz: Quiz,
+    boss: BossBattle,
     drill: Drill,
     tests: PracticeTests,
     reference: Reference,

@@ -379,3 +379,71 @@ textarea.import-box {
   font-family: monospace;
   font-size: 0.8rem;
 }
+
+
+/* ---- Boss Battle ---- */
+.boss-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+.boss-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+  padding: 0.9rem 0.6rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.boss-card.locked { opacity: 0.5; }
+.boss-card-emoji { font-size: 2.2rem; line-height: 1.1; }
+.boss-card-title { font-size: 0.82rem; color: var(--text-dim); min-height: 2.4em; }
+.boss-stars { color: var(--warn); letter-spacing: 0.1em; }
+.boss-stars.big { font-size: 1.8rem; }
+
+.boss-emoji {
+  font-size: 4.5rem;
+  line-height: 1.15;
+  text-align: center;
+  margin-top: 0.5rem;
+  user-select: none;
+}
+.boss-emoji.hit { animation: bossShake 0.35s; }
+.boss-emoji.dead { opacity: 0.35; transform: rotate(90deg); }
+@keyframes bossShake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-9px) rotate(-4deg); }
+  50% { transform: translateX(9px) rotate(4deg); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+.boss-name { text-align: center; font-weight: 600; margin-bottom: 0.5rem; }
+
+.hp-track {
+  height: 16px;
+  border-radius: 8px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.hp-fill {
+  height: 100%;
+  background: var(--bad);
+  transition: width 0.35s;
+}
+.hearts { font-size: 1.3rem; letter-spacing: 0.1em; }
+
+.boss-missed { display: flex; flex-direction: column; gap: 0.4rem; }
+.boss-missed-row {
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-alt);
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boss-emoji.hit { animation: none; }
+  .hp-fill { transition: none; }
+}

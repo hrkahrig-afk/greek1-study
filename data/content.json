@@ -11897,6 +11897,111 @@
       "gloss": "I keep, guard, obey",
       "chapter": 9,
       "device": "'TAIR-eh-oh' — TERRY the guard KEEPS the gate."
+    },
+    {
+      "word": "ἀνοίγω",
+      "lemma": "ἀνοίγω",
+      "gloss": "I open",
+      "chapter": 10,
+      "device": "'An-OY-go' — 'Oy! I'll GO open it.'"
+    },
+    {
+      "word": "ἀπολύω",
+      "lemma": "ἀπολύω",
+      "gloss": "I set free, dismiss, divorce",
+      "chapter": 10,
+      "device": "AWAY + LOOSE: loosen the rope and send them away — set free, dismiss, divorce."
+    },
+    {
+      "word": "ἀρχή, ἡ",
+      "lemma": "ἀρχή",
+      "gloss": "beginning",
+      "chapter": 10,
+      "device": "Natural link: archaeology, archetype — the BEGINNING of things."
+    },
+    {
+      "word": "ἄρχω",
+      "lemma": "ἄρχω",
+      "gloss": "I rule, begin (mid)",
+      "chapter": 10,
+      "device": "Natural link: monarchy, patriarch, anarchy — the one who RULES. (Same root as 'beginning'.)"
+    },
+    {
+      "word": "δαιμόνιον, τό",
+      "lemma": "δαιμόνιον",
+      "gloss": "demon",
+      "chapter": 10,
+      "device": "Natural link: demon."
+    },
+    {
+      "word": "διδάσκαλος, ὁ",
+      "lemma": "διδάσκαλος",
+      "gloss": "teacher",
+      "chapter": 10,
+      "device": "Natural link: didactic — a teacher teaches. (Same family as the verb 'I teach'.)"
+    },
+    {
+      "word": "θρόνος, ὁ",
+      "lemma": "θρόνος",
+      "gloss": "throne",
+      "chapter": 10,
+      "device": "Natural link: throne."
+    },
+    {
+      "word": "ἱμάτιον, τό",
+      "lemma": "ἱμάτιον",
+      "gloss": "clothing, garment",
+      "chapter": 10,
+      "device": "'Hi, MATT-ee-on!' — greeting Matt in his new garment."
+    },
+    {
+      "word": "καρπός, ὁ",
+      "lemma": "καρπός",
+      "gloss": "fruit, crop",
+      "chapter": 10,
+      "device": "Natural link: carpel, pericarp — fruit parts of a plant. Also: a CAR loaded with FRUIT."
+    },
+    {
+      "word": "πλοῖον, τό",
+      "lemma": "πλοῖον",
+      "gloss": "ship, boat",
+      "chapter": 10,
+      "device": "'PLOY-on' — the pirates' PLOY: sneak aboard the ship."
+    },
+    {
+      "word": "προσεύχομαι",
+      "lemma": "προσεύχομαι",
+      "gloss": "I pray",
+      "chapter": 10,
+      "device": "'Pros-YOUCH-oh-my!' — OUCH, my knees! Kneeling to pray."
+    },
+    {
+      "word": "προσκυνέω",
+      "lemma": "προσκυνέω",
+      "gloss": "I worship",
+      "chapter": 10,
+      "device": "'Pros-KOO-nay-oh' — bow TOWARD the king and kiss the ground: worship. (It originally meant 'kiss toward'.)"
+    },
+    {
+      "word": "συνάγω",
+      "lemma": "συνάγω",
+      "gloss": "I gather, bring together",
+      "chapter": 10,
+      "device": "WITH + LEAD: you lead people along WITH you — gather, bring together."
+    },
+    {
+      "word": "συναγωγή, ἡ",
+      "lemma": "συναγωγή",
+      "gloss": "synagogue, assembly",
+      "chapter": 10,
+      "device": "Natural link: synagogue — the gathering place."
+    },
+    {
+      "word": "χαρά, ἡ",
+      "lemma": "χαρά",
+      "gloss": "joy",
+      "chapter": 10,
+      "device": "Natural link: Eucharist, charismatic (same family as 'grace'). 'Ha-RAH!' is a shout of joy."
     }
   ]
 }

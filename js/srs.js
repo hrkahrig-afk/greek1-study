@@ -24,6 +24,7 @@ const SRS = (() => {
     return {
       currentChapter: 1,
       items: {}, // id -> { ease, interval, reps, due, correct, incorrect, lastResult }
+      boss: {}, // chapter number (or "all") -> best star count 1-3
     };
   }
 
@@ -109,6 +110,25 @@ const SRS = (() => {
     it.due = addDays(todayISO(), it.interval);
     persist();
     return it;
+  }
+
+  // Read-only lookup: unlike getItemState, never creates an entry.
+  function peekItem(id) {
+    return state.items[id] || null;
+  }
+
+  function getBossStars(key) {
+    return (state.boss && state.boss[key]) || 0;
+  }
+
+  function recordBoss(key, stars) {
+    if (!state.boss) state.boss = {};
+    const best = Math.max(state.boss[key] || 0, stars);
+    if (best !== state.boss[key]) {
+      state.boss[key] = best;
+      persist();
+    }
+    return best;
   }
 
   function isDue(id) {
@@ -211,6 +231,9 @@ const SRS = (() => {
     init,
     grade,
     isDue,
+    peekItem,
+    getBossStars,
+    recordBoss,
     getItemState,
     setCurrentChapter,
     getCurrentChapter,

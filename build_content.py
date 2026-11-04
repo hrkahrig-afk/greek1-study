@@ -476,6 +476,22 @@ MNEMONICS = [
     ("σάββατον", "Natural link: Sabbath."),
     ("σῴζω", "'SO-zo' — 'So, zo, you're SAVED!' (Natural link: soteriology.)"),
     ("τηρέω", "'TAIR-eh-oh' — TERRY the guard KEEPS the gate."),
+    # Chapter 10
+    ("ἀνοίγω", "'An-OY-go' — 'Oy! I'll GO open it.'"),
+    ("ἀπολύω", "AWAY + LOOSE: loosen the rope and send them away — set free, dismiss, divorce."),
+    ("ἀρχή", "Natural link: archaeology, archetype — the BEGINNING of things."),
+    ("ἄρχω", "Natural link: monarchy, patriarch, anarchy — the one who RULES. (Same root as 'beginning'.)"),
+    ("δαιμόνιον", "Natural link: demon."),
+    ("διδάσκαλος", "Natural link: didactic — a teacher teaches. (Same family as the verb 'I teach'.)"),
+    ("θρόνος", "Natural link: throne."),
+    ("ἱμάτιον", "'Hi, MATT-ee-on!' — greeting Matt in his new garment."),
+    ("καρπός", "Natural link: carpel, pericarp — fruit parts of a plant. Also: a CAR loaded with FRUIT."),
+    ("πλοῖον", "'PLOY-on' — the pirates' PLOY: sneak aboard the ship."),
+    ("προσεύχομαι", "'Pros-YOUCH-oh-my!' — OUCH, my knees! Kneeling to pray."),
+    ("προσκυνέω", "'Pros-KOO-nay-oh' — bow TOWARD the king and kiss the ground: worship. (It originally meant 'kiss toward'.)"),
+    ("συνάγω", "WITH + LEAD: you lead people along WITH you — gather, bring together."),
+    ("συναγωγή", "Natural link: synagogue — the gathering place."),
+    ("χαρά", "Natural link: Eucharist, charismatic (same family as 'grace'). 'Ha-RAH!' is a shout of joy."),
 ]
 
 
