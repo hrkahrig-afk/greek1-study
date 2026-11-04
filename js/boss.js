@@ -23,6 +23,8 @@ const BossBattle = (() => {
   const HP_FACTOR = 0.95; // boss HP vs. total possible damage — leaves room for a few misses
   const HEAL_ON_MISS = 0.5;
   const POWER_EVERY = 5; // every 5th correct in a row hits double
+  const HEART_EVERY = 8; // every 8th correct in a row restores a heart (max 3)
+  const MAX_HEARTS = 3;
 
   let token = 0; // bumped whenever a screen is left, so stale timers do nothing
   let mode = "full"; // "full" | "vocab"
@@ -80,7 +82,7 @@ const BossBattle = (() => {
         vocab
           ? "Vocabulary only. Every word in the chapter is asked once showing the Greek word (you pick the meaning), then again showing the meaning (you pick the Greek word). The boss-rage round brings back the words you missed."
           : "Vocabulary, forms and parsing. Tap the right answer to hit the boss."
-      } A wrong answer costs a heart and the boss heals a little. Five right in a row lands a power attack. Win with all 3 hearts for 3 stars.</p>
+      } A wrong answer costs a heart and the boss heals a little. Five right in a row lands a power attack, and eight in a row restores a heart. Stars: 3 for a flawless win, 2 for one or two misses, 1 for more.</p>
       <div class="card">
         <div class="row between">
           <div>
@@ -387,8 +389,13 @@ const BossBattle = (() => {
       const dmg = q.mult * (power ? 2 : 1);
       b.hp = Math.max(0, b.hp - dmg);
       boss.classList.add("hit");
+      let restored = false;
+      if (b.streak % HEART_EVERY === 0 && b.hearts < MAX_HEARTS) {
+        b.hearts += 1;
+        restored = true;
+      }
       feedback.className = "feedback correct";
-      feedback.textContent = power ? `POWER ATTACK! −${dmg}` : `Hit! −${dmg}`;
+      feedback.textContent = (power ? `POWER ATTACK! −${dmg}` : `Hit! −${dmg}`) + (restored ? "  ❤️ Heart restored!" : "");
     } else {
       b.hearts -= 1;
       b.streak = 0;
@@ -434,7 +441,9 @@ const BossBattle = (() => {
   function finish(container, b, outcome) {
     token++;
     const win = outcome === "win";
-    const earned = win ? Math.max(1, b.hearts) : 0;
+    // hearts can regenerate, so stars count misses instead of hearts left
+    const misses = b.answeredCount - b.correctCount;
+    const earned = win ? (misses === 0 ? 3 : misses <= 2 ? 2 : 1) : 0;
     let bestLine = "";
     if (win && b.record) {
       const best = SRS.recordBoss(starKey(b.key, b.vocab), earned);
