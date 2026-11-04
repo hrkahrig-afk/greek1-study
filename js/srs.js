@@ -62,7 +62,10 @@ const SRS = (() => {
       try {
         const snap = await dbRef.get();
         if (snap.exists) {
-          const data = snap.data();
+          // Claude hands snapshots back frozen (read-only). Copy into plain
+          // objects, otherwise grading writes into frozen data: new items
+          // throw and existing ones silently never update.
+          const data = JSON.parse(JSON.stringify(snap.data()));
           state = { ...defaultState(), ...data, items: data.items || {} };
           return;
         }
@@ -93,7 +96,7 @@ const SRS = (() => {
     try {
       if (dbRef) {
         const ref = dbRef;
-        const snapshot = state;
+        const snapshot = JSON.parse(JSON.stringify(state)); // copy: state keeps changing while writes queue
         writeChain = writeChain
           .then(() => ref.set(snapshot))
           .catch((e) => console.error("Failed to save progress.", e));
